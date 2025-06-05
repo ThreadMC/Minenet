@@ -1,0 +1,45 @@
+{
+  "name": "minenet",
+  "version": "1.0.0",
+  "description": "An advanced Minecraft API client for interacting with piston-meta, minecraft servers, and more",
+  "type": "module",
+  "main": "index.js",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "build:watch": "tsc --watch",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/threadmc/minenet.git"
+  },
+  "bugs": {
+    "url": "https://github.com/threadmc/minenet/issues"
+  },
+  "homepage": "https://github.com/threadmc/minenet#readme",
+  "keywords": [
+    "minecraft",
+    "api",
+    "client",
+    "piston-meta",
+    "minecraft-server",
+    "library"
+  ],
+  "author": "The ThreadMC Authors",
+  "license": "BSD-3-Clause",
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "prettier": "^3.5.3",
+    "typescript": "^5.8.3"
+  },
+  "dependencies": {
+    "net": "*"
+  }
+}
