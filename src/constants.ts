@@ -15,5 +15,4 @@ export const PISTON = {
 export const MOJANG_API = {
   USER_PROFILE: "https://api.mojang.com/users/profiles/minecraft/",
   NAME_HISTORY: "https://api.mojang.com/user/profiles/{uuid}/names",
-  SERVER_STATUS: "https://status.mojang.com/check",
 };

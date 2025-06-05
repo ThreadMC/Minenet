@@ -1,11 +1,11 @@
-import { Rest, fetchVersionManifest, fetchVersionDetails } from "./rest";
-import { VersionType } from "./enums/VersionType";
-import { Server } from "./server";
+import { Rest, fetchVersionManifest, fetchVersionDetails } from "./rest.js";
+import { VersionType } from "./enums/VersionType.js";
+import { Server } from "./server.js";
 import type {
   Version,
   VersionManifest,
   VersionDetails,
-} from "./types/VersionManifest";
+} from "./types/VersionManifest.js";
 
 /**
  * Main API client for interacting with Minecraft version data, Mojang APIs, and Minecraft servers.
@@ -99,19 +99,27 @@ export class Client {
 
   /**
    * Fetch the name history for a given UUID.
+   * @deprecated This endpoint has been removed on the 13th September 2022.
+   * For more information, see: https://shorturl.at/31VrF
    * @param uuid The user's UUID (with or without dashes).
    * @returns The name history array.
    */
   async fetchNameHistory(uuid: string) {
-    return await this.rest.fetchNameHistory(uuid);
+    // return await this.rest.fetchNameHistory(uuid);
+    return Promise.reject(
+      new Error(
+        "This endpoint has been removed on the 13th September 2022. For more information, see: https://shorturl.at/31VrF",
+      ),
+    );
   }
 
   /**
-   * Fetch the current Mojang server status.
-   * @returns The Mojang server status JSON.
+   * Fetch the skin and/or cape textures for a user by UUID.
+   * @param uuid The user's UUID (with or without dashes).
+   * @returns The textures object containing skin/cape URLs, or null if not found.
    */
-  async fetchMojangStatus() {
-    return await this.rest.fetchMojangStatus();
+  async fetchUserTextures(uuid: string) {
+    return await this.rest.fetchUserTextures(uuid);
   }
 }
 

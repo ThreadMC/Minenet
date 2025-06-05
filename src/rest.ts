@@ -1,10 +1,10 @@
-import { PISTON, MOJANG_API } from "./constants";
-import { VersionType } from "./enums/VersionType";
+import { PISTON, MOJANG_API } from "./constants.js";
+import { VersionType } from "./enums/VersionType.js";
 import type {
   Version,
   VersionManifest,
   VersionDetails,
-} from "./types/VersionManifest";
+} from "./types/VersionManifest.js";
 
 /**
  * Low-level REST client for interacting with Mojang and piston-meta APIs.
@@ -12,15 +12,12 @@ import type {
  */
 export class Rest {
   private VERSION_MANIFEST_DATA: VersionManifest | null = null;
+  private initialized: Promise<void>;
 
   constructor() {
-    this.initialize();
+    this.initialized = this.initialize();
   }
 
-  /**
-   * Initialize the Rest client by fetching the version manifest if not already loaded.
-   * @private
-   */
   private async initialize() {
     if (!this.VERSION_MANIFEST_DATA) {
       try {
@@ -32,84 +29,49 @@ export class Rest {
     }
   }
 
-  /**
-   * Fetch details for a specific Minecraft version.
-   * @param version The version ID.
-   * @returns The version details JSON.
-   */
   async fetchVersion(version: string) {
-    try {
-      const versionData = this.VERSION_MANIFEST_DATA?.versions?.find(
-        (v: Version) => v.id === version,
-      );
-      if (!versionData) {
-        throw new Error(`Version ${version} not found in manifest`);
-      }
-
-      const response = await fetch(versionData.url);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error(`Failed to fetch version ${version}:`, error);
-      throw error;
+    await this.initialized;
+    const versionData = this.VERSION_MANIFEST_DATA?.versions?.find(
+      (v: Version) => v.id === version,
+    );
+    if (!versionData) {
+      throw new Error(`Version ${version} not found in manifest`);
     }
+
+    const response = await fetch(versionData.url);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    return await response.json();
   }
 
-  /**
-   * Fetch all versions of a given type (release or snapshot).
-   * @param type The version type.
-   * @returns Array of versions.
-   */
   async fetchVersions(type: VersionType) {
-    try {
-      if (!this.VERSION_MANIFEST_DATA) {
-        await this.fetchVersionManifest();
-      }
-
-      const versions = this.VERSION_MANIFEST_DATA?.versions?.filter(
-        (v: Version) => v.type === type,
-      );
-      if (!versions || versions.length === 0) {
-        throw new Error(`No versions found for type ${type}`);
-      }
-      return versions;
-    } catch (error) {
-      console.error(`Failed to fetch versions of type ${type}:`, error);
-      throw error;
+    await this.initialized;
+    const versions = this.VERSION_MANIFEST_DATA?.versions?.filter(
+      (v: Version) => v.type === type,
+    );
+    if (!versions || versions.length === 0) {
+      throw new Error(`No versions found for type ${type}`);
     }
+    return versions;
   }
 
-  /**
-   * Fetch the latest version of a given type.
-   * @param type The version type.
-   * @returns The latest version object.
-   */
   async fetchLatestVersion(type: VersionType) {
-    try {
-      if (!this.VERSION_MANIFEST_DATA) {
-        await this.fetchVersionManifest();
-      }
-
-      const versions = this.VERSION_MANIFEST_DATA?.versions?.filter(
-        (v: Version) => v.type === type,
-      );
-      if (!versions || versions.length === 0) {
-        throw new Error(`No versions found for type ${type}`);
-      }
-
-      const latestVersion = versions.reduce((latest, current) => {
-        return new Date(latest.releaseTime) > new Date(current.releaseTime)
-          ? latest
-          : current;
-      });
-
-      return latestVersion;
-    } catch (error) {
-      console.error(`Failed to fetch latest version of type ${type}:`, error);
-      throw error;
+    await this.initialized;
+    const versions = this.VERSION_MANIFEST_DATA?.versions?.filter(
+      (v: Version) => v.type === type,
+    );
+    if (!versions || versions.length === 0) {
+      throw new Error(`No versions found for type ${type}`);
     }
+
+    const latestVersion = versions.reduce((latest, current) => {
+      return new Date(latest.releaseTime) > new Date(current.releaseTime)
+        ? latest
+        : current;
+    });
+
+    return latestVersion;
   }
 
   /**
@@ -117,16 +79,11 @@ export class Rest {
    * @returns The version manifest JSON.
    */
   async fetchVersionManifest() {
-    try {
-      const response = await fetch(PISTON.VERSION_MANIFEST);
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error("Failed to fetch version manifest:", error);
-      throw error;
+    const response = await fetch(PISTON.VERSION_MANIFEST);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+    return await response.json();
   }
 
   /**
@@ -135,18 +92,12 @@ export class Rest {
    * @returns The asset index JSON.
    */
   async fetchAssetIndex(version: string) {
-    try {
-      const details = await this.fetchVersion(version);
-      if (!details.assetIndex?.url)
-        throw new Error("No asset index for version " + version);
-      const response = await fetch(details.assetIndex.url);
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-      return await response.json();
-    } catch (error) {
-      console.error(`Failed to fetch asset index for ${version}:`, error);
-      throw error;
-    }
+    const details = await this.fetchVersion(version);
+    if (!details.assetIndex?.url)
+      throw new Error("No asset index for version " + version);
+    const response = await fetch(details.assetIndex.url);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return await response.json();
   }
 
   /**
@@ -155,16 +106,10 @@ export class Rest {
    * @returns The library file as an ArrayBuffer.
    */
   async fetchLibrary(libraryPath: string) {
-    try {
-      const url = PISTON.LIBRARIES_BASE + libraryPath;
-      const response = await fetch(url);
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-      return await response.arrayBuffer();
-    } catch (error) {
-      console.error(`Failed to fetch library ${libraryPath}:`, error);
-      throw error;
-    }
+    const url = PISTON.LIBRARIES_BASE + libraryPath;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return await response.arrayBuffer();
   }
 
   /**
@@ -173,17 +118,11 @@ export class Rest {
    * @returns The user profile JSON.
    */
   async fetchUserProfile(username: string) {
-    try {
-      const response = await fetch(
-        MOJANG_API.USER_PROFILE + encodeURIComponent(username),
-      );
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-      return await response.json();
-    } catch (error) {
-      console.error(`Failed to fetch user profile for ${username}:`, error);
-      throw error;
-    }
+    const response = await fetch(
+      MOJANG_API.USER_PROFILE + encodeURIComponent(username),
+    );
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return await response.json();
   }
 
   /**
@@ -192,35 +131,34 @@ export class Rest {
    * @returns The name history array.
    */
   async fetchNameHistory(uuid: string) {
-    try {
-      const url = MOJANG_API.NAME_HISTORY.replace(
-        "{uuid}",
-        uuid.replace(/-/g, ""),
-      );
-      const response = await fetch(url);
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-      return await response.json();
-    } catch (error) {
-      console.error(`Failed to fetch name history for ${uuid}:`, error);
-      throw error;
-    }
+    const url = MOJANG_API.NAME_HISTORY.replace(
+      "{uuid}",
+      uuid.replace(/-/g, ""),
+    );
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    return await response.json();
   }
 
   /**
-   * Fetch the current Mojang server status.
-   * @returns The Mojang server status JSON.
+   * Fetch the skin and/or cape textures for a user by UUID.
+   * @param uuid The user's UUID (with or without dashes).
+   * @returns The textures object containing skin/cape URLs, or null if not found.
    */
-  async fetchMojangStatus() {
-    try {
-      const response = await fetch(MOJANG_API.SERVER_STATUS);
-      if (!response.ok)
-        throw new Error(`HTTP error! status: ${response.status}`);
-      return await response.json();
-    } catch (error) {
-      console.error("Failed to fetch Mojang server status:", error);
-      throw error;
-    }
+  async fetchUserTextures(uuid: string) {
+    const url = `https://sessionserver.mojang.com/session/minecraft/profile/${uuid.replace(
+      /-/g,
+      "",
+    )}`;
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+    const texturesProperty = data.properties?.find(
+      (p: any) => p.name === "textures",
+    );
+    if (!texturesProperty) return null;
+    const decoded = JSON.parse(atob(texturesProperty.value));
+    return decoded.textures || null;
   }
 }
 

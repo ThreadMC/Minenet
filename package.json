@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "An advanced Minecraft API client for interacting with piston-meta, minecraft servers, and more",
   "type": "module",
-  "main": "index.js",
+  "main": "dist/client.js",
   "files": [
     "dist",
     "README.md",
