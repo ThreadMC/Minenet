@@ -1,6 +1,6 @@
 {
   "name": "@threadmc/minecraft-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "An advanced Minecraft API client for interacting with piston-meta, minecraft servers, and more",
   "type": "module",
   "main": "dist/client.js",
