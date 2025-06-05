@@ -1,5 +1,5 @@
 {
-  "name": "minenet",
+  "name": "@threadmc/minecraft-api",
   "version": "1.0.0",
   "description": "An advanced Minecraft API client for interacting with piston-meta, minecraft servers, and more",
   "type": "module",
@@ -18,12 +18,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/threadmc/minenet.git"
+    "url": "https://github.com/threadmc/minecraft-api.git"
   },
   "bugs": {
-    "url": "https://github.com/threadmc/minenet/issues"
+    "url": "https://github.com/threadmc/minecraft-api/issues"
   },
-  "homepage": "https://github.com/threadmc/minenet#readme",
+  "homepage": "https://github.com/threadmc/minecraft-api#readme",
   "keywords": [
     "minecraft",
     "api",

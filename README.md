@@ -1,10 +1,10 @@
-# minenet
+# minecraft-api
 
-[![npm version](https://img.shields.io/npm/v/minenet.svg)](https://www.npmjs.com/package/minenet)
-[![license](https://img.shields.io/github/license/threadmc/minenet)](LICENSE)
+[![npm version](https://img.shields.io/npm/v/@threadmc/minecraft-api.svg)](https://www.npmjs.com/package/@threadmc/minecraft-api)
+[![license](https://img.shields.io/github/license/threadmc/minecraft-api)](LICENSE)
 [![prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://prettier.io/)
 
-**minenet** is an advanced TypeScript/JavaScript client for interacting with Minecraft version data, Mojang APIs, piston-meta, and Minecraft servers. It provides high-level and low-level APIs for fetching version manifests, server status, user profiles, libraries, and more.
+**minecraft-api** is an advanced TypeScript/JavaScript client for interacting with Minecraft version data, Mojang APIs, piston-meta, and Minecraft servers. It provides high-level and low-level APIs for fetching version manifests, server status, user profiles, libraries, and more.
 
 ## Features
 
@@ -18,19 +18,19 @@
 ## Installation
 
 ```sh
-npm install minenet
+npm install @threadmc/minecraft-api
 # or
-yarn add minenet
+yarn add @threadmc/minecraft-api
 # or
-pnpm add minenet
+pnpm add @threadmc/minecraft-api
 # or
-bun add minenet
+bun add @threadmc/minecraft-api
 ```
 
 ## Usage
 
 ```typescript
-import { Client, VersionType } from "minenet";
+import { Client, VersionType } from "@threadmc/minecraft-api";
 
 const client = new Client();
 
@@ -75,7 +75,7 @@ main();
 
 ## Contributing
 
-Contributions are welcome! Please open issues or pull requests on [GitHub](https://github.com/threadmc/minenet).
+Contributions are welcome! Please open issues or pull requests on [GitHub](https://github.com/threadmc/minecraft-api).
 
 ### Development
 

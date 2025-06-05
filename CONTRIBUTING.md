@@ -1,18 +1,18 @@
-# Contributing to minenet
+# Contributing to minecraft-api
 
-Thank you for your interest in contributing to **minenet**! We welcome all contributions, whether bug reports, feature requests, documentation improvements, or code.
+Thank you for your interest in contributing to **minecraft-api**! We welcome all contributions, whether bug reports, feature requests, documentation improvements, or code.
 
 ## How to Contribute
 
 ### 1. Fork the Repository
 
-Click the "Fork" button at the top right of the [repository page](https://github.com/threadmc/minenet) to create your own copy.
+Click the "Fork" button at the top right of the [repository page](https://github.com/threadmc/minecraft-api) to create your own copy.
 
 ### 2. Clone Your Fork
 
 ```sh
-git clone https://github.com/YOUR_USERNAME/minenet.git
-cd minenet
+git clone https://github.com/YOUR_USERNAME/minecraft-api.git
+cd minecraft-api
 ```
 
 ### 3. Install Dependencies
@@ -66,6 +66,6 @@ Go to your fork on GitHub and open a pull request against the `main` branch of t
 
 ## Reporting Issues
 
-If you find a bug or have a feature request, please [open an issue](https://github.com/threadmc/minenet/issues).
+If you find a bug or have a feature request, please [open an issue](https://github.com/threadmc/minecraft-api/issues).
 
-Thank you for helping make minenet better!
+Thank you for helping make minecraft-api better!
