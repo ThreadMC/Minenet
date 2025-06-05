@@ -32,6 +32,6 @@ jobs:
         run: bun run build
 
       - name: Publish to GitHub Package Registry
-        run: npm publish --access=restricted --provenance
+        run: npm publish --access=restricted
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
