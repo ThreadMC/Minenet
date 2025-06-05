@@ -8,7 +8,6 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "@threadmc/minecraft-api": "../"
-  },
-  "packageManager": "pnpm@10.8.0"
+    "@threadmc/minecraft-api": "link:.."
+  }
 }
