@@ -1,4 +1,4 @@
-import { Client, VersionType } from "minenet";
+import { Client, VersionType } from "@threadmc/minecraft-api";
 
 const client = new Client();
 
